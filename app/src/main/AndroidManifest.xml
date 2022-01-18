@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MCMID_mGOD">
         <activity
+            android:name=".DocumentationRecorder"
+            android:exported="true" />
+        <activity
+            android:name=".weightRecorder"
+            android:exported="true" />
+        <activity
             android:name=".PatientView"
             android:exported="true" />
         <activity
