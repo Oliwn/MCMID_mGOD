@@ -44,9 +44,8 @@ public class AddActivity extends MainActivity {
                 }
 
                 EditText mEditText_additional = findViewById(R.id.editText_additional);
-                if (mEditText_additional.getText() != null){
-                    String additional = mEditText_additional.getText().toString();
-                }
+
+                String additional = mEditText_additional.getText().toString();
                 mEditText_additional.setInputType(InputType.TYPE_NULL);
 
                 if (additional != null && additional != "") {
