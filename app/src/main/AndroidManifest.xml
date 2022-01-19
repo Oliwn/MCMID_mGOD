@@ -29,16 +29,20 @@
             android:exported="true" />
         <activity
             android:name=".PatientView"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".PatientList"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Patient List"/>
         <activity
             android:name=".Documentation"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Choose Action"/>
         <activity
             android:name=".ViewDocument"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Last Documentation"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

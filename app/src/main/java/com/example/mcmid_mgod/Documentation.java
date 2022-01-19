@@ -18,7 +18,8 @@ public class Documentation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+        TextView textViewName = findViewById(R.id.text_patname);
+        textViewName.setText(Controller.currentPatient.firstname+" "+Controller.currentPatient.lastname);
         Intent intent =getIntent();
 
         setContentView(R.layout.activity_documentation);

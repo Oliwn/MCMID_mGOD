@@ -8,6 +8,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 
@@ -23,10 +24,6 @@ public class LoginActivity extends MainActivity {
         mButtonLogin.setOnClickListener(new View.OnClickListener(){
             @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View view){
-
-
-
-
                 mEditTextUsername = findViewById(R.id.editText_username);
                 EditText editTextPassword = findViewById(R.id.editText_password);
 
@@ -34,10 +31,9 @@ public class LoginActivity extends MainActivity {
                     MainActivity.currentUser = mEditTextUsername.getText().toString();
                     Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                     startActivity(intent);
+                    Toast toastNoUser = Toast.makeText(getApplicationContext(), "You are logged in", Toast.LENGTH_SHORT);
+                    toastNoUser.show();
                 }
-
-
-
 
             }
         });

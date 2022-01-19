@@ -61,6 +61,7 @@ public class AddActivity extends MainActivity {
                 if (additional.length() > 0) {
                     Controller.addAdditionalInformation(additional);
                 }
+                finish();
             }
         });
         ImageButton buttonBluetooth = findViewById(R.id.imageButton_bluetooth);
