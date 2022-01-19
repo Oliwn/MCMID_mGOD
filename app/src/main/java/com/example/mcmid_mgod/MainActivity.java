@@ -68,53 +68,56 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         this.menu = menu;
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_user, menu);
-
-
+        //menu.getItem(1).setVisible(false);
 
         return true;
     }
 
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        if (!currentUser){ // show LOGIN menu
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(false);
-        }
-        if (currentUser){ // show LOGOUT menu
-            menu.getItem(0).setVisible(true);
-            menu.getItem(1).setVisible(true);
-        }
+    public  boolean onClickLogout(MenuItem item){
+
+        item.setVisible(false);
+        //menu.getItem(1).setVisible(true);
+
         return true;
     }
-
+    public boolean onClickLogin(MenuItem item){
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+        item.setVisible(false);
+        menu.getItem(0).setVisible(true);
+        return true;
+    }
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){ // LOGIN
             case R.id.LoginItem:
-
-
-
                 Intent i = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(i);
                 currentUser = true;
 
+                item.setVisible(false);
 
 
                 return true;
             case R.id.LogoutItem:
                 Toast toastLogout = Toast.makeText(getApplicationContext(), "Youre logged out", Toast.LENGTH_SHORT);
                 toastLogout.show();
+                item.setVisible(false);
                 // do log out user
+                return true;
 
 
         }
-        return super.onOptionsItemSelected(item);
+        return true;
 
     }
+
+
 
 }
