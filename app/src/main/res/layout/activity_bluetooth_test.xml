@@ -10,7 +10,7 @@
         android:id="@+id/textViewBluetoothDeviceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Record weight"
+        android:text="Bluetooth Test page"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,25 +22,19 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Weight[kg]"
+        android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textViewBluetoothDeviceName" />
 
     <Button
-        android:id="@+id/buttonRandWeight"
+        android:id="@+id/buttonBluetoothSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="simulate weight"
+        android:text="Start Bluetooth LE Magic"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextWeight" />
 
-    <Button
-        android:id="@+id/buttonReturnWeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="return"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout_editor_absoluteX="150dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
