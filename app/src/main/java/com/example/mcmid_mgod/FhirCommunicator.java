@@ -2,6 +2,7 @@ package com.example.mcmid_mgod;
 
 import android.app.Activity;
 import android.os.Build;
+import android.os.StrictMode;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,13 +36,15 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class FhirCommunicator {
-    FhirContext ctx = FhirContext.forR4();;
+    FhirContext ctx = FhirContext.forR4();
     private String url= "https://fhir.ls.technikum-wien.at/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(url);
     private String TAG = "communicator";
     public FhirCommunicator() {
         //ctx
         //client ;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
     }
 
     public ArrayList<PatientLocal> getAllPatients() {
@@ -50,6 +53,10 @@ public class FhirCommunicator {
                 .where(Patient.IDENTIFIER.hasSystemWithAnyCode("dicado"))
                 .returnBundle(Bundle.class)
                 .execute();
+
+        if (results.getEntry().size() == 0) {
+            return null;
+        }
 
         ArrayList<PatientLocal> list = new ArrayList<PatientLocal>();
 
@@ -74,7 +81,8 @@ public class FhirCommunicator {
                     sex = "male";
                 }
 
-                PatientLocal pat = new PatientLocal(name.getGivenAsSingleString(), name.getFamily(), sex, patFhir.getBirthDate(), patFhir.getIdentifier().get(0).getValue());
+                String date = patFhir.getBirthDateElement().getYear() + "-" + (patFhir.getBirthDateElement().getMonth()+1) + "-" +patFhir.getBirthDateElement().getDay();
+                PatientLocal pat = new PatientLocal(name.getGivenAsSingleString(), name.getFamily(), sex, date, patFhir.getIdentifier().get(0).getValue());
                 list.add(pat);
                 //Log.d(TAG, list.size() + "");
             }
@@ -127,12 +135,13 @@ public class FhirCommunicator {
     }
 
     public Observation getLastObservation() {
+        Observation obs = null;
         if (Controller.lastObservationId != null) {
-            Observation obs = client.read()
+            obs = client.read()
                     .resource(Observation.class)
                     .withId(Controller.lastObservationId)
                     .execute();
-            Log.d(TAG, "observation: " + obs.getValueStringType().toString());
+            Log.d(TAG, "observation: " + obs.getIdentifier().get(0).getValue());
             return obs;
         }
 
@@ -141,9 +150,42 @@ public class FhirCommunicator {
                 .returnBundle(Bundle.class)
                 .execute();
 
-        Observation obs = (Observation) results.getEntry().get(results.getEntry().size()-1).getResource();
-        Log.d(TAG, "observation: " + obs.getValueStringType().toString());
-        return obs;
+        if (Controller.currentPatient == null) {
+            return null;
+        }
+
+        for (int i = results.getEntry().size()-1; i >= 0; i--) {
+            obs = (Observation) results.getEntry().get(results.getEntry().size() - 1).getResource();
+            if (obs.getIdentifier().get(0).getValue().equals(Controller.currentPatient.insuranceNr)) {
+                Log.d(TAG, "observation: " + obs.getIdentifier().get(0).getValue());
+                return obs;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<Observation> getAllObservations() {
+        ArrayList<Observation> obsList = new ArrayList<Observation>();
+
+        Bundle results = client.search()
+                .forResource(Observation.class)
+                .returnBundle(Bundle.class)
+                .execute();
+
+        //Zusätzliche Überprüfung auf results.size, damit keine leere Liste zurückgegeben wird
+        if (Controller.currentPatient == null || results.getEntry().size() == 0) {
+            return null;
+        }
+
+        Observation obs;
+        for (int i = results.getEntry().size()-1; i >= 0; i--) {
+            obs = (Observation) results.getEntry().get(i).getResource();
+            if (obs.getSubject().getIdentifier().getValue().equals(Controller.currentPatient.insuranceNr)) {
+                Log.d(TAG, "observation: " + obs.getSubject().getIdentifier().getValue());
+                obsList.add(obs);
+            }
+        }
+        return obsList;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
