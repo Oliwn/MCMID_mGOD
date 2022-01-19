@@ -4,6 +4,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
 import android.bluetooth.le.ScanFilter;
@@ -28,6 +31,24 @@ public class BluetoothTest extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
     private boolean scanning;
+    private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
+        @Override
+        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
+            String nameResult = gatt.getDevice().getName();
+            String macAdress = gatt.getDevice().getAddress();
+
+            if (newState == BluetoothProfile.STATE_CONNECTED) {
+                // successfully connected to the GATT Server
+                Log.i("BluetoothGattCallback", ": Connected to BT LE Device Name: " + nameResult);
+                Log.i("BluetoothGattCallback", ": Connected to BT LE Device  Mac: " + macAdress);
+                //Todo: store a reference to BluetoothGatt!
+            } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
+                Log.i("BluetoothGattCallback", ": Disconnected from BT LE Device Name: " + nameResult);
+                Log.i("BluetoothGattCallback", ": Disconnected from BT LE Device  Mac: " + macAdress);
+                // disconnected from the GATT Server
+            }
+        }
+    };
     // Device scan callback.
     private ScanCallback leScanCallback =
             new ScanCallback() {
@@ -37,10 +58,13 @@ public class BluetoothTest extends AppCompatActivity {
                     String nameResult = result.getDevice().getName();
                     String macAdress = result.getDevice().getAddress();
                     Log.i("ScanCallback", ": Found BT LE Device Name: " + nameResult);
-                    Log.i("ScanCallback", ": Found BT LE Device Mac: " + macAdress);
+                    Log.i("ScanCallback", ": Found BT LE Device  Mac: " + macAdress);
+                    result.getDevice().connectGatt(getApplicationContext(), false, gattCallback);
                     //leDeviceListAdapter.notifyDataSetChanged();
                 }
             };
+
+
     private Handler handler = new Handler();
 
     @Override
@@ -49,6 +73,7 @@ public class BluetoothTest extends AppCompatActivity {
         setContentView(R.layout.activity_bluetooth_test);
 
         final Button bluetoothSearchButton = (Button) findViewById(R.id.buttonBluetoothSearch);
+        final Button bluetoothConnectButton = (Button) findViewById(R.id.buttonBluetoothConnect);
         //final Button backButton = (Button) findViewById(R.id.buttonReturnWeight);
 
 
@@ -64,6 +89,17 @@ public class BluetoothTest extends AppCompatActivity {
             }
         });
 
+        bluetoothConnectButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            @Override
+            public void onClick(View v) {
+                Log.i("Click BTLE Connect", "Start");
+                startBleScan();
+                // Intent startBluetooth = new Intent(BluetoothTest.this, DeviceScanActivity.class);
+                // startActivity(startBluetooth);
+                //do weight
+            }
+        });
         //checks if bluetooth is available on the device
 
         //start finding actual bluetoothLE devices
@@ -91,9 +127,9 @@ public class BluetoothTest extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void startBleScan() {
-        String filterAdress = "C8:47:8C:F9:3F:BE";
+        String filterAddress = "C8:47:8C:F9:3F:BE";
         //checks if bluetooth is available and activated
-        ScanFilter filter = new ScanFilter.Builder().setDeviceAddress(filterAdress).build();
+        ScanFilter filter = new ScanFilter.Builder().setDeviceAddress(filterAddress).build();
         List<ScanFilter> filterList = new ArrayList<ScanFilter>();
         filterList.add(filter);
 

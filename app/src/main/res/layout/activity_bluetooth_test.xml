@@ -7,7 +7,7 @@
     tools:context=".weightRecorder">
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/textViewBluetoothDeviceName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bluetooth Test page"
@@ -25,13 +25,22 @@
         android:text=""
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4" />
+        app:layout_constraintTop_toBottomOf="@+id/textViewBluetoothDeviceName" />
+
+    <Button
+        android:id="@+id/buttonBluetoothConnect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Connect to Bluetooth LE device"
+        app:layout_constraintBottom_toTopOf="@+id/buttonBluetoothSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/buttonBluetoothSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search Bluetooth LE"
+        android:text="Search for Bluetooth LE Devices"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
