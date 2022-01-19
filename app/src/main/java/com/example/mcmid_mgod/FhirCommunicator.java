@@ -36,7 +36,7 @@ import ca.uhn.fhir.rest.api.MethodOutcome;
 import ca.uhn.fhir.rest.client.api.IGenericClient;
 
 public class FhirCommunicator {
-    FhirContext ctx = FhirContext.forR4();;
+    FhirContext ctx = FhirContext.forR4();
     private String url= "https://fhir.ls.technikum-wien.at/fhir";
     IGenericClient client = ctx.newRestfulGenericClient(url);
     private String TAG = "communicator";
@@ -53,6 +53,10 @@ public class FhirCommunicator {
                 .where(Patient.IDENTIFIER.hasSystemWithAnyCode("dicado"))
                 .returnBundle(Bundle.class)
                 .execute();
+
+        if (results.getEntry().size() == 0) {
+            return null;
+        }
 
         ArrayList<PatientLocal> list = new ArrayList<PatientLocal>();
 
@@ -77,7 +81,8 @@ public class FhirCommunicator {
                     sex = "male";
                 }
 
-                PatientLocal pat = new PatientLocal(name.getGivenAsSingleString(), name.getFamily(), sex, patFhir.getBirthDate(), patFhir.getIdentifier().get(0).getValue());
+                String date = patFhir.getBirthDateElement().getYear() + "-" + (patFhir.getBirthDateElement().getMonth()+1) + "-" +patFhir.getBirthDateElement().getDay();
+                PatientLocal pat = new PatientLocal(name.getGivenAsSingleString(), name.getFamily(), sex, date, patFhir.getIdentifier().get(0).getValue());
                 list.add(pat);
                 //Log.d(TAG, list.size() + "");
             }
@@ -157,6 +162,30 @@ public class FhirCommunicator {
             }
         }
         return null;
+    }
+
+    public ArrayList<Observation> getAllObservations() {
+        ArrayList<Observation> obsList = new ArrayList<Observation>();
+
+        Bundle results = client.search()
+                .forResource(Observation.class)
+                .returnBundle(Bundle.class)
+                .execute();
+
+        //Zusätzliche Überprüfung auf results.size, damit keine leere Liste zurückgegeben wird
+        if (Controller.currentPatient == null || results.getEntry().size() == 0) {
+            return null;
+        }
+
+        Observation obs;
+        for (int i = results.getEntry().size()-1; i >= 0; i--) {
+            obs = (Observation) results.getEntry().get(i).getResource();
+            if (obs.getSubject().getIdentifier().getValue().equals(Controller.currentPatient.insuranceNr)) {
+                Log.d(TAG, "observation: " + obs.getSubject().getIdentifier().getValue());
+                obsList.add(obs);
+            }
+        }
+        return obsList;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)

@@ -1,8 +1,10 @@
 package com.example.mcmid_mgod;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +19,7 @@ import java.util.List;
 public class PatientList extends AppCompatActivity {
     final int MY_REQUEST_CODE = 1;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +30,7 @@ public class PatientList extends AppCompatActivity {
         ArrayList<PatientLocal> patients = Controller.getAllPatients();
 
         ArrayList<String> arrayList = new ArrayList<>();
+
         for (PatientLocal p : patients) {
             arrayList.add(p.toString());
         }
