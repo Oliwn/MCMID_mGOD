@@ -22,13 +22,20 @@ public class Controller {
     }
 
     public static void addBloodPressure(int sys, int dia, String additionalInfos) {
-        communicator.addBloodPressure(sys, dia, additionalInfos);
+        communicator.addObservation(sys +"/" + dia, "BP", additionalInfos);
     }
 
+    public static void addWeight(int weight, String additionalInfos) {
+        communicator.addObservation(weight + "", "weight", additionalInfos);
+    }
+
+    //wenn diese direkt verwendet wird: type ist entweder "BP" oder "weight"!
     public static void addObservation(String value, String type, String additionalInfos) {
         communicator.addObservation(value, type, additionalInfos);
     }
 
+    //Wert der Observation bekommt man so:  obs.getValueStringType().toString()
+    //Additional info so:  obs.getInterpretation().get(0).getText()
     public static Observation getLastObservation() {
         return communicator.getLastObservation();
     }
