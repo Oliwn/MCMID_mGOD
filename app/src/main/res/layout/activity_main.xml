@@ -22,7 +22,7 @@
         android:layout_width="323dp"
         android:layout_height="38dp"
         android:layout_marginTop="212dp"
-        android:text="Choos a patient from the patientlist to view information or add documentation"
+        android:text="Choose a patient from the patientlist to view information or add documentation"
         android:textAlignment="center"
         android:textSize="16sp"
         android:textStyle="normal"
@@ -46,45 +46,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="68dp"
-        android:text="Welcome to Dicado Desktop"
+        android:text="Welcome to Dicado Mobile"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="231dp"
-        android:layout_height="83dp"
-        android:layout_marginTop="208dp"
-        android:text="Add Documentation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_showPList" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="132dp"
-        android:text="Last Recording"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.476"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <TextView
-        android:id="@+id/textViewLastRecording"
-        android:layout_width="108dp"
-        android:layout_height="16dp"
-        android:text="no last recording"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.114" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

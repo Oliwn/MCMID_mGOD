@@ -2,10 +2,13 @@ package com.example.mcmid_mgod;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,31 +27,38 @@ public class AddActivity extends MainActivity {
         mButtonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+                Intent intent =getIntent();
+
                 // Submit Input Data
                 EditText mEditText_BP = findViewById(R.id.editText_BP);
 
                 String BP = mEditText_BP.getText().toString();
+                Log.d("ADD", BP);
                 mEditText_BP.setInputType(InputType.TYPE_NULL);
 
-                if (BP != null && BP != "") {
+                if (BP.length() > 0) {
                     Controller.addBloodPressure(BP);
                 }
 
                 EditText mEditText_weight = findViewById(R.id.editText_weight);
 
                 String weight = mEditText_weight.getText().toString();
+                Log.d("ADD", weight);
                 mEditText_weight.setInputType(InputType.TYPE_NULL);
 
-                if (weight != null && weight != "") {
+                if (weight.length() > 0) {
                     Controller.addWeight(weight);
                 }
 
                 EditText mEditText_additional = findViewById(R.id.editText_additional);
 
                 String additional = mEditText_additional.getText().toString();
+                Log.d("ADD", additional);
                 mEditText_additional.setInputType(InputType.TYPE_NULL);
 
-                if (additional != null && additional != "") {
+                if (additional.length() > 0) {
                     Controller.addAdditionalInformation(additional);
                 }
             }
@@ -63,6 +73,18 @@ public class AddActivity extends MainActivity {
 
 
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MainActivity.menu = menu;

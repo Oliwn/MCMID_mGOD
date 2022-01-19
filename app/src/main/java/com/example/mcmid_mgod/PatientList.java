@@ -43,7 +43,7 @@ public class PatientList extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Controller.currentPatient = patients.get(i);
                 Toast.makeText(PatientList.this,"clicked item"+i+""+arrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(),PatientView.class);
+                Intent intent = new Intent(getApplicationContext(),Documentation.class);
                 intent.putExtra("Listindex", i);
                 startActivityForResult(intent,MY_REQUEST_CODE);
             }
