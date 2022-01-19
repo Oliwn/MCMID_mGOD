@@ -17,4 +17,10 @@
 
         android:title="Logout"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/item_home"
+        android:icon="@drawable/ic_home"
+        android:onClick="onClickHome"
+        android:title="Home"
+        app:showAsAction="always" />
 </menu>
