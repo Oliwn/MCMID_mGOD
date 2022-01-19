@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,12 +19,13 @@ public class Documentation extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        TextView textViewName = findViewById(R.id.text_patname);
-        textViewName.setText(Controller.currentPatient.firstname+" "+Controller.currentPatient.lastname);
+
         Intent intent =getIntent();
 
         setContentView(R.layout.activity_documentation);
         TextView patientname = findViewById(R.id.text_patname);
+        patientname.setText(Controller.currentPatient.firstname + " " + Controller.currentPatient.lastname);
+
         Button newdoc = findViewById(R.id.btn_newdoc);
         Button viewdoc = findViewById(R.id.btn_viewdoc);
 

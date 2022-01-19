@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +42,18 @@ public class PatientList extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("PatientList", i + "");
+                Log.i("PatientList", i + "");
+                Log.d("PatientList", patients.get(i).firstname);
+                Log.d("PatientList", patients.get(i).lastname);
+
                 Controller.currentPatient = patients.get(i);
+                Log.d("PatientList", i + "");
+                Log.i("PatientList", i + "");
+                Log.d("PatientList", Controller.currentPatient.firstname);
+                Log.d("PatientList", Controller.currentPatient.lastname);
+
+
                 Toast.makeText(PatientList.this,"clicked item"+i+""+arrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),Documentation.class);
                 intent.putExtra("Listindex", i);
