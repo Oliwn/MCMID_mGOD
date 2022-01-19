@@ -13,7 +13,7 @@ import java.util.Date;
 public class Controller {
     private static FhirCommunicator communicator = new FhirCommunicator();
     public static ArrayList<PatientLocal> patientList = new ArrayList<PatientLocal>();
-    public static PatientLocal currentPatient = new PatientLocal("Test", "Testing", "male", "2000-01-01", "1234567890");
+    public static PatientLocal currentPatient = new PatientLocal("Test", "Testing", "male", "2000-01-01", "1111010100");
     public static IIdType lastObservationId = null;
     public static ArrayList<Observation> observations = null;
 
@@ -36,25 +36,29 @@ public class Controller {
         return retList;
     }
 
-    public static void addBloodPressure(String value, String additionalInfos) {
-        communicator.addObservation(value, "BP", additionalInfos);
+    public static void addBloodPressure(String value) {
+        communicator.addObservation(value, "BP");
     }
 
-    public static void addBloodPressure(int sys, int dia, String additionalInfos) {
-        communicator.addObservation(sys +"/" + dia, "BP", additionalInfos);
+    public static void addBloodPressure(int sys, int dia) {
+        communicator.addObservation(sys +"/" + dia, "BP");
     }
 
-    public static void addWeight(String weight, String additionalInfos) {
-        communicator.addObservation(weight, "weight", additionalInfos);
+    public static void addWeight(String weight) {
+        communicator.addObservation(weight, "weight");
     }
 
-    public static void addWeight(int weight, String additionalInfos) {
-        communicator.addObservation(weight + "", "weight", additionalInfos);
+    /*public static void addWeight(int weight) {
+        communicator.addObservation(weight + "", "weight");
+    }*/
+
+    public static void addAdditionalInformation(String additional) {
+        communicator.addObservation(additional, "additional");
     }
 
     //wenn diese direkt verwendet wird: type ist entweder "BP" oder "weight"!
-    public static void addObservation(String value, String type, String additionalInfos) {
-        communicator.addObservation(value, type, additionalInfos);
+    public static void addObservation(String value, String type) {
+        communicator.addObservation(value, type);
     }
 
     //Wert der Observation bekommt man so:  obs.getValueStringType().toString()
@@ -77,8 +81,21 @@ public class Controller {
         for (Observation obs : observations) {
             String temp = obs.getEffectiveDateTimeType().getYear() + "-" + (obs.getEffectiveDateTimeType().getMonth()+1) + "-" + obs.getEffectiveDateTimeType().getDay();
 
-            retList.add(obs.getValue().toString() + " on " + temp + " Additional information: " + obs.getInterpretation().get(0).getText());
-                    //obs.getValueStringType().toString() +
+            String entry = null;
+            switch (obs.getCategory().get(0).getCoding().get(0).getCode()) {
+                case ("BP"):
+                    entry = "Blood Pressure: " + obs.getValue().toString() + "mmHg on " + temp;
+                    break;
+                case("weight"):
+                    entry = "Weight: " + obs.getValue().toString() + "kg measured on " + temp;
+                    break;
+                case("additional"):
+                    entry = "Additional information on " + temp + ": " + obs.getValue().toString();
+                    break;
+            }
+            if (entry != null) {
+                retList.add(entry);  //obs.getCategory().get(0).getCoding().get(0).getCode() + ": " + obs.getValue().toString() + " on " + temp);  // + " Additional information: " + obs.getInterpretation().get(0).getText());
+            }
         }
         return retList;
     }

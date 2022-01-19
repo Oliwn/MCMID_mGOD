@@ -28,11 +28,19 @@ public class MainActivity extends AppCompatActivity {
         final Button weightButton = (Button) findViewById(R.id.button_showPList);
         final Button bloodPressureButton = (Button) findViewById(R.id.button2);
 
+        if (currentUser.equals("")) {
+            weightButton.setClickable(false);
+            bloodPressureButton.setClickable(false);
+        } else {
+            weightButton.setClickable(true);
+            bloodPressureButton.setClickable(true);
+        }
+
         TextView lastRecording = (TextView) findViewById(R.id.textViewLastRecording);
         lastRecording.setText(getIntent().getStringExtra("last"));
 
         //onclick for weight
-        weightButton.setOnClickListener(new View.OnClickListener()
+        /*weightButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -40,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent startWeight = new Intent(MainActivity.this, weightRecorder.class);
                 startActivity(startWeight);
             }
-        });
+        });*/
 
         //onclick for BP
         bloodPressureButton.setOnClickListener(new View.OnClickListener()
@@ -48,9 +56,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                Intent startBP = new Intent(MainActivity.this, DocumentationRecorder.class);
-                startActivity(startBP);
-                //do weight
+                if (currentUser.equals("")){
+                    Toast toastNoUser = Toast.makeText(getApplicationContext(), "Please log in", Toast.LENGTH_SHORT);
+                    toastNoUser.show();
+                }
+                else{
+                    Intent startBP = new Intent(MainActivity.this, AddActivity.class);
+                    startActivity(startBP);
+                    //do weight
+                }
             }
         });
         //if an intent started this activity display the extra "last"
@@ -70,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
                     toastNoUser.show();
                 }
                 else{
-                    Intent i = new Intent(getApplicationContext(), AddActivity.class);
+                    Intent i = new Intent(getApplicationContext(), PatientList.class);
                     startActivity(i);
                 }
             }
@@ -96,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public  boolean onClickLogout(MenuItem item){
-
+        currentUser = "";
         item.setVisible(false);
         menu.getItem(0).setVisible(true);
         Toast toastLogout = Toast.makeText(getApplicationContext(), "You're logged out", Toast.LENGTH_SHORT);

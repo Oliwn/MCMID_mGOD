@@ -94,7 +94,11 @@ public class FhirCommunicator {
     }
 
     //wenn diese direkt verwendet wird: type ist entweder "BP" oder "weight"!
-    public void addObservation(String value, String type, String additionalInfos) {
+    public void addObservation(String value, String type) {
+        if (Controller.currentPatient == null) {
+            return;
+        }
+
         Observation obs = new Observation();
         CodeableConcept cat = new CodeableConcept();
         Coding cod = new Coding();
@@ -115,24 +119,24 @@ public class FhirCommunicator {
         obs.setValue(new StringType(value));
         obs.setEffective(new DateTimeType(Calendar.getInstance().getTime()));
 
-        //add additionalInfos
-        CodeableConcept interpretation = new CodeableConcept();
-        interpretation.setText(additionalInfos);
-        obs.addInterpretation(interpretation);
-
         MethodOutcome outcome = client.create().resource(obs).execute();
 
         Log.d(TAG, outcome.getResource().getClass() + "");
         Controller.lastObservationId = outcome.getId();
     }
 
-    public void addBloodPressure(int sys, int dia, String additionalInfos) {
-        addObservation(sys + "/" + dia, "BP", additionalInfos);
+    public void addBloodPressure(int sys, int dia) {
+        addObservation(sys + "/" + dia, "BP");
     }
 
     public void addWeight(int weight, String additionalInfos) {
-        addObservation(weight + "", "weight", additionalInfos);
+        addObservation(weight + "", "weight");
     }
+
+    public void addAdditionalInformation(String additionalInfos) {
+        addObservation(additionalInfos, "additional");
+    }
+
 
     public Observation getLastObservation() {
         Observation obs = null;

@@ -1,12 +1,15 @@
 package com.example.mcmid_mgod;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import androidx.annotation.RequiresApi;
 
 public class LoginActivity extends MainActivity {
     EditText mEditTextUsername;
@@ -18,14 +21,21 @@ public class LoginActivity extends MainActivity {
         Button mButtonLogin = findViewById(R.id.button_Login);
 
         mButtonLogin.setOnClickListener(new View.OnClickListener(){
+            @RequiresApi(api = Build.VERSION_CODES.O)
             public void onClick(View view){
 
 
 
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                startActivity(intent);
+
                 mEditTextUsername = findViewById(R.id.editText_username);
-                MainActivity.currentUser = mEditTextUsername.getText().toString();
+                EditText editTextPassword = findViewById(R.id.editText_password);
+
+                if (Controller.login(mEditTextUsername.getText().toString(), editTextPassword.getText().toString())) {
+                    MainActivity.currentUser = mEditTextUsername.getText().toString();
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
+                }
+
 
 
 

@@ -26,26 +26,32 @@ public class AddActivity extends MainActivity {
             public void onClick(View view) {
                 // Submit Input Data
                 EditText mEditText_BP = findViewById(R.id.editText_BP);
-                if (mEditText_BP.getText() != null){
-                    String BP = mEditText_BP.getText().toString();
-                }
+
+                String BP = mEditText_BP.getText().toString();
                 mEditText_BP.setInputType(InputType.TYPE_NULL);
 
-                EditText mEditText_weight = findViewById(R.id.editText_weight);
-                if (mEditText_weight.getText() != null){
-                    //int weight = Integer.parseInt(mEditText_BP.getText().toString()); !!!!!!!!!!!CRASHED !!!!!!!!!!!!!!
+                if (BP != null && BP != "") {
+                    Controller.addBloodPressure(BP);
                 }
 
+                EditText mEditText_weight = findViewById(R.id.editText_weight);
+
+                String weight = mEditText_weight.getText().toString();
                 mEditText_weight.setInputType(InputType.TYPE_NULL);
+
+                if (weight != null && weight != "") {
+                    Controller.addWeight(weight);
+                }
 
                 EditText mEditText_additional = findViewById(R.id.editText_additional);
                 if (mEditText_additional.getText() != null){
                     String additional = mEditText_additional.getText().toString();
                 }
                 mEditText_additional.setInputType(InputType.TYPE_NULL);
-                menu.getItem(0).setVisible(true);
-                Toast toastLogout = Toast.makeText(getApplicationContext(), "Successfully submitted", Toast.LENGTH_SHORT);
-                mButtonSubmit.setEnabled(false);
+
+                if (additional != null && additional != "") {
+                    Controller.addAdditionalInformation(additional);
+                }
             }
         });
         ImageButton buttonBluetooth = findViewById(R.id.imageButton_bluetooth);
