@@ -6,6 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".AddActivity">
 
+    <ImageButton
+        android:id="@+id/imageButton_bluetooth2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="56dp"
+        android:backgroundTint="#00000000"
+        android:tint="#ADAFBA"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textLayout_BP"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_bluetooth" />
+
     <Button
         android:id="@+id/button_submit"
         android:layout_width="wrap_content"
@@ -115,5 +129,19 @@
             android:inputType="textShortMessage|number|textPersonName" />
 
     </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageButton
+        android:id="@+id/imageButton_bluetooth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="152dp"
+        android:backgroundTint="#00000000"
+        android:tint="#3F51B5"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textLayout_additional"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_baseline_bluetooth" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
