@@ -26,18 +26,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         final Button weightButton = (Button) findViewById(R.id.button_showPList);
-        final Button bloodPressureButton = (Button) findViewById(R.id.button2);
 
-        if (currentUser.equals("")) {
-            weightButton.setClickable(false);
-            bloodPressureButton.setClickable(false);
-        } else {
-            weightButton.setClickable(true);
-            bloodPressureButton.setClickable(true);
-        }
-
-        TextView lastRecording = (TextView) findViewById(R.id.textViewLastRecording);
-        lastRecording.setText(getIntent().getStringExtra("last"));
 
         //onclick for weight
         /*weightButton.setOnClickListener(new View.OnClickListener()
@@ -50,23 +39,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });*/
 
-        //onclick for BP
-        bloodPressureButton.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                if (currentUser.equals("")){
-                    Toast toastNoUser = Toast.makeText(getApplicationContext(), "Please log in", Toast.LENGTH_SHORT);
-                    toastNoUser.show();
-                }
-                else{
-                    Intent startBP = new Intent(MainActivity.this, AddActivity.class);
-                    startActivity(startBP);
-                    //do weight
-                }
-            }
-        });
+
         //if an intent started this activity display the extra "last"
         if(getIntent().hasExtra("last")) {
             Intent intent = getIntent();
