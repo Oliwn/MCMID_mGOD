@@ -2,15 +2,9 @@ package com.example.mcmid_mgod;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.core.graphics.drawable.DrawableCompat;
 
-import android.content.ClipData;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,8 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
-    boolean currentUser = false;
-    private Menu menu;
+    public static String currentUser = "";
+    public static Menu menu;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -31,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final Button weightButton = (Button) findViewById(R.id.button);
+        final Button weightButton = (Button) findViewById(R.id.button_showPList);
         final Button bloodPressureButton = (Button) findViewById(R.id.button2);
 
         TextView lastRecording = (TextView) findViewById(R.id.textViewLastRecording);
@@ -67,10 +61,22 @@ public class MainActivity extends AppCompatActivity {
             // TextView textView = findViewById(R.id.textViewLastRecording);
             // textView.setText(message);
         }
-
-
-
+        Button mButtonShowPList =  (Button) findViewById(R.id.button_showPList);
+        mButtonShowPList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (currentUser.equals("")){
+                    Toast toastNoUser = Toast.makeText(getApplicationContext(), "Please log in", Toast.LENGTH_SHORT);
+                    toastNoUser.show();
+                }
+                else{
+                    Intent i = new Intent(getApplicationContext(), AddActivity.class);
+                    startActivity(i);
+                }
+            }
+        });
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -78,47 +84,42 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_user, menu);
 
-
-
-        return true;
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-        if (!currentUser){ // show LOGIN menu
-            menu.getItem(0).setVisible(true);
+        if (currentUser.equals("")) {
             menu.getItem(1).setVisible(false);
-        }
-        if (currentUser){ // show LOGOUT menu
             menu.getItem(0).setVisible(true);
+        } else {
             menu.getItem(1).setVisible(true);
+            menu.getItem(0).setVisible(false);
         }
+
         return true;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){ // LOGIN
-            case R.id.LoginItem:
+    public  boolean onClickLogout(MenuItem item){
 
+        item.setVisible(false);
+        menu.getItem(0).setVisible(true);
+        Toast toastLogout = Toast.makeText(getApplicationContext(), "You're logged out", Toast.LENGTH_SHORT);
+        toastLogout.show();
 
-
-                Intent i = new Intent(getApplicationContext(), LoginActivity.class);
-                startActivity(i);
-                currentUser = true;
-
-
-
-                return true;
-            case R.id.LogoutItem:
-                Toast toastLogout = Toast.makeText(getApplicationContext(), "Youre logged out", Toast.LENGTH_SHORT);
-                toastLogout.show();
-                // do log out user
-
-
-        }
-        return super.onOptionsItemSelected(item);
-
+        return true;
     }
+    public boolean onClickLogin(MenuItem item){
+        Intent i = new Intent(getApplicationContext(), LoginActivity.class);
+        startActivity(i);
+        item.setVisible(false);
+        menu.getItem(0).setVisible(true);
+        return true;
+    }
+
+    public boolean onClickHome(MenuItem item){
+        Intent i = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(i);
+        return true;
+    }
+
+
+
+
 
 }
