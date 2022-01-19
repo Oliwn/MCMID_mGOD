@@ -18,4 +18,8 @@ public class PatientLocal {
         this.insuranceNr = insuranceNr;
     }
 
+    public String toString() {
+        return firstname + " " + lastname + " " + dob.getDay() + "/" + dob.getMonth() + "/" + dob.getYear() + " " + sex + " " + insuranceNr;
+    }
+
 }
