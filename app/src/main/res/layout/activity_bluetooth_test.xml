@@ -28,21 +28,13 @@
         app:layout_constraintTop_toBottomOf="@+id/textViewBluetoothDeviceName" />
 
     <Button
-        android:id="@+id/buttonBluetoothConnect"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Connect to Bluetooth LE device"
-        app:layout_constraintBottom_toTopOf="@+id/buttonBluetoothSearch"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
         android:id="@+id/buttonBluetoothSearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Search for Bluetooth LE Devices"
+        android:text="Start Bluetooth LE Magic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextWeight" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
