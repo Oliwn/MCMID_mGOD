@@ -29,6 +29,10 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -37,8 +41,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MCMID_mGOD">
         <activity
+
             android:name=".BluetoothTest"
             android:exported="true" />
+        <activity
+            android:name=".AddActivity"
+            android:label="Add Documentation"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:label="Login"/>
         <activity
             android:name=".DocumentationRecorder"
             android:exported="true" />
@@ -47,19 +60,28 @@
             android:exported="true" />
         <activity
             android:name=".PatientView"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".PatientList"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Patient List"/>
+        <activity
+            android:name=".Documentation"
+            android:exported="true"
+            android:label="Choose Action"/>
+        <activity
+            android:name=".ViewDocument"
+            android:exported="true"
+            android:label="Last Documentation"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="DICADO">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
