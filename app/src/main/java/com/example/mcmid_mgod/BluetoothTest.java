@@ -59,7 +59,7 @@ public class BluetoothTest extends AppCompatActivity {
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String nameResult = gatt.getDevice().getName();
             String macAdress = gatt.getDevice().getAddress();
-
+            Log.i("BluetoothGattCallback", ": onConnectionStateChange: " + newState);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 // successfully connected to the GATT Server
                 Log.i("BluetoothGattCallback", ": Connected to BT LE Device Name: " + nameResult);
@@ -166,9 +166,9 @@ public class BluetoothTest extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void startBleScan() {
         String filterAddress = "C8:47:8C:F9:3F:BE";
-        String filterName = "A&D_UC-352BLE_5F01D7"; //A&D_UC-352BLE_5F01D7
+        String filterName = "MI SCALE2";
         //checks if bluetooth is available and activated
-        ScanFilter filter = new ScanFilter.Builder().setDeviceName(filterName).build();
+        ScanFilter filter = new ScanFilter.Builder().setDeviceAddress(filterAddress).build();
         List<ScanFilter> filterList = new ArrayList<ScanFilter>();
         filterList.add(filter);
 
@@ -184,14 +184,17 @@ public class BluetoothTest extends AppCompatActivity {
                     public void run() {
                         scanning = false;
                         bluetoothLeScanner.stopScan(leScanCallback);
+                        Log.i("BTLE Scanner", "Stopped");
                     }
                 }, SCAN_PERIOD);
 
                 scanning = true;
                 bluetoothLeScanner.startScan(filterList, setting, leScanCallback);
+                Log.i("BTLE Scanner", "Started");
             } else {
                 scanning = false;
                 bluetoothLeScanner.stopScan(leScanCallback);
+                Log.i("BTLE Scanner", "Stopped");
             }
         }
         //------------- from https://developer.android.com/guide/topics/connectivity/bluetooth/find-ble-devices end
@@ -209,12 +212,10 @@ public class BluetoothTest extends AppCompatActivity {
         BluetoothGatt gatt = gattSave;
         BluetoothGattCharacteristic batteryLevelChar = gatt.getService(serviceUuid).getCharacteristic(charUuid);
         Log.i("Characteristic", "Start Reading Characteristic");
-        //if (batteryLevelChar.getPermissions() == BluetoothGattCharacteristic.PERMISSION_READ) {
+        if (batteryLevelChar.getPermissions() == BluetoothGattCharacteristic.PERMISSION_READ) {
             Log.i("Characteristic", "Readable");
-
-            Log.i("Characteristic", gatt.readCharacteristic(batteryLevelChar) + "");
-
-        //}
+            gatt.readCharacteristic(batteryLevelChar);
+        }
     }
 
 }
