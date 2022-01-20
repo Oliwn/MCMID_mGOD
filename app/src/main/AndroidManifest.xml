@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mcmid_mgod">
+    package="com.example.mcmid_mgod"> <!-- Min/target SDK versions (<uses-sdk>) managed by build.gradle -->
+
+    <!-- Request legacy Bluetooth permissions on older devices. -->
+    <uses-permission
+        android:name="android.permission.BLUETOOTH"
+        android:maxSdkVersion="30" />
+    <uses-permission
+        android:name="android.permission.BLUETOOTH_ADMIN"
+        android:maxSdkVersion="30" />
+    <!--
+ Needed only if your app looks for Bluetooth devices.
+         If your app doesn't use Bluetooth scan results to derive physical
+         location information, you can strongly assert that your app
+         doesn't derive physical location.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <!--
+ Needed only if your app makes the device discoverable to Bluetooth
+         devices.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <!--
+ Needed only if your app communicates with already-paired Bluetooth
+         devices.
+    -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" /> <!-- Needed only if your app uses Bluetooth scan results to derive physical location. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -10,6 +41,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MCMID_mGOD">
         <activity
+
+            android:name=".BluetoothTest"
+            android:exported="true" />
+        <activity
+            android:name=".AddActivity"
+            android:label="Add Documentation"
+            android:exported="true" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:label="Login"/>
+        <activity
             android:name=".DocumentationRecorder"
             android:exported="true" />
         <activity
@@ -17,19 +60,28 @@
             android:exported="true" />
         <activity
             android:name=".PatientView"
-            android:exported="true" />
+            android:exported="true"
+            />
         <activity
             android:name=".PatientList"
-            android:exported="true" />
+            android:exported="true"
+            android:label="Patient List"/>
+        <activity
+            android:name=".Documentation"
+            android:exported="true"
+            android:label="Choose Action"/>
+        <activity
+            android:name=".ViewDocument"
+            android:exported="true"
+            android:label="Last Documentation"/>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:label="DICADO">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
