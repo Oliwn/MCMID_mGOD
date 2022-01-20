@@ -54,7 +54,7 @@ public class PatientList extends AppCompatActivity {
                 Log.d("PatientList", Controller.currentPatient.lastname);
 
 
-                Toast.makeText(PatientList.this,"clicked item"+i+""+arrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(PatientList.this,"clicked item"+i+""+arrayList.get(i).toString(), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getApplicationContext(),Documentation.class);
                 intent.putExtra("Listindex", i);
                 startActivityForResult(intent,MY_REQUEST_CODE);
