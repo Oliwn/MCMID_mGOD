@@ -35,7 +35,8 @@ public class BluetoothTest extends AppCompatActivity {
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
     private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
     private boolean scanning;
-    String serviceUuidString = "0000181d-0000-1000-8000-00805f9b34fb";
+    //String serviceUuidString = "0000181d-0000-1000-8000-00805f9b34fb";    //Weight
+    String serviceUuidString = "0000180a-0000-1000-8000-00805f9b34fb";     //Device info
     // Device scan callback.
     private ScanCallback leScanCallback =
             new ScanCallback() {
@@ -53,7 +54,8 @@ public class BluetoothTest extends AppCompatActivity {
 
 
     private Handler handler = new Handler();
-    String charUuidString = "00002a9d-0000-1000-8000-00805f9b34fb";
+    //String charUuidString = "00002a9d-0000-1000-8000-00805f9b34fb"; //weight measurement
+    String charUuidString = "00002a28-0000-1000-8000-00805f9b34fb"; //Version Number
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -103,12 +105,14 @@ public class BluetoothTest extends AppCompatActivity {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                float btvalue = characteristic.getFloatValue(50, 0);
+                Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + btvalue);
 
-                //Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getValue().toString());
+                Intent intent = new Intent(getApplicationContext(), AddActivity.class);
+                intent.putExtra("btvalue", btvalue);
+                setResult(1, intent);
+                finish();
 //characteristic.getValue().
-                for (int i = 0; i < 16; i++) {
-                    Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getFloatValue(50, i));
-                }
 
 
             } else {
@@ -168,7 +172,7 @@ public class BluetoothTest extends AppCompatActivity {
         String filterAddress = "C8:47:8C:F9:3F:BE";
         String filterName = "MI SCALE2";
         //checks if bluetooth is available and activated
-        ScanFilter filter = new ScanFilter.Builder().setDeviceAddress(filterAddress).build();
+        ScanFilter filter = new ScanFilter.Builder().setDeviceName(filterName).build();
         List<ScanFilter> filterList = new ArrayList<ScanFilter>();
         filterList.add(filter);
 
@@ -211,9 +215,12 @@ public class BluetoothTest extends AppCompatActivity {
         UUID charUuid = UUID.fromString(charUuidString);
         BluetoothGatt gatt = gattSave;
         BluetoothGattCharacteristic batteryLevelChar = gatt.getService(serviceUuid).getCharacteristic(charUuid);
-        Log.i("Characteristic", "Start Reading Characteristic");
+        Log.i("Characteristic", "Start Reading Characteristic " + batteryLevelChar);
         if (batteryLevelChar.getPermissions() == BluetoothGattCharacteristic.PERMISSION_READ) {
             Log.i("Characteristic", "Readable");
+            gatt.readCharacteristic(batteryLevelChar);
+        } else {
+            Log.i("Characteristic", "Permission: " + batteryLevelChar.getPermissions() + "\nRead anyways and hope for the best");
             gatt.readCharacteristic(batteryLevelChar);
         }
     }

@@ -1,5 +1,6 @@
 package com.example.mcmid_mgod;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -16,6 +17,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.fasterxml.jackson.databind.JsonSerializer;
+
+import java.util.zip.DeflaterOutputStream;
 
 public class AddActivity extends MainActivity {
 
@@ -69,10 +72,25 @@ public class AddActivity extends MainActivity {
             @Override
             public void onClick(View view) {
                 // BLUETOOTH
+                Intent intent = new Intent(getApplicationContext(), BluetoothTest.class);
+                startActivityForResult(intent, 1);
+
+
             }
         });
 
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            float value = data.getFloatExtra("btvalue", -1);
+            String valueString = "" + value;
+            EditText text = findViewById(R.id.editText_weight);
+            text.setText(valueString);
+        }
     }
 
     @Override
