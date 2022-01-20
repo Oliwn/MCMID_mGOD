@@ -34,37 +34,19 @@ public class BluetoothTest extends AppCompatActivity {
     private BluetoothLeScanner bluetoothLeScanner = bluetoothAdapter.getBluetoothLeScanner();
     private boolean scanning;
     String serviceUuidString = "0000181d-0000-1000-8000-00805f9b34fb";
-    // Device scan callback.
-    private ScanCallback leScanCallback =
-            new ScanCallback() {
-                @Override
-                public void onScanResult(int callbackType, ScanResult result) {
-                    super.onScanResult(callbackType, result);
-                    String nameResult = result.getDevice().getName();
-                    String macAdress = result.getDevice().getAddress();
-                    Log.i("ScanCallback", ": Found BT LE Device Name: " + nameResult);
-                    Log.i("ScanCallback", ": Found BT LE Device  Mac: " + macAdress);
-                    result.getDevice().connectGatt(getApplicationContext(), false, gattCallback);
-                    //leDeviceListAdapter.notifyDataSetChanged();
-                }
-            };
-
-
-    private Handler handler = new Handler();
-    String charUuidString = "00002a2f-0000-1000-8000-00805f9b34fb";
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
             String nameResult = gatt.getDevice().getName();
             String macAdress = gatt.getDevice().getAddress();
-
+            Log.i("BluetoothGattCallback", ": onConnectionStateChange: " + newState);
             if (newState == BluetoothProfile.STATE_CONNECTED) {
                 // successfully connected to the GATT Server
                 Log.i("BluetoothGattCallback", ": Connected to BT LE Device Name: " + nameResult);
                 Log.i("BluetoothGattCallback", ": Connected to BT LE Device  Mac: " + macAdress);
                 gattSave = gatt;    //reference gatt outside
 
-                getDataFromBtleDevice();
+                //getDataFromBtleDevice();
 
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.i("BluetoothGattCallback", ": Disconnected from BT LE Device Name: " + nameResult);
@@ -89,6 +71,25 @@ public class BluetoothTest extends AppCompatActivity {
             }
         }
     };
+
+
+    private Handler handler = new Handler();
+    String charUuidString = "00002a2f-0000-1000-8000-00805f9b34fb";
+    // Device scan callback.
+    private ScanCallback leScanCallback =
+            new ScanCallback() {
+                @Override
+                public void onScanResult(int callbackType, ScanResult result) {
+                    super.onScanResult(callbackType, result);
+                    Log.i("ScanCallback", ": OnScanResult start");
+                    String nameResult = result.getDevice().getName();
+                    String macAdress = result.getDevice().getAddress();
+                    Log.i("ScanCallback", ": Found BT LE Device Name: " + nameResult);
+                    Log.i("ScanCallback", ": Found BT LE Device  Mac: " + macAdress);
+                    result.getDevice().connectGatt(getApplicationContext(), false, gattCallback);
+                    //leDeviceListAdapter.notifyDataSetChanged();
+                }
+            };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,11 +142,11 @@ public class BluetoothTest extends AppCompatActivity {
         String filterAddress = "C8:47:8C:F9:3F:BE";
         String filterName = "MI SCALE2";
         //checks if bluetooth is available and activated
-        ScanFilter filter = new ScanFilter.Builder().setDeviceName(filterName).build();
+        ScanFilter filter = new ScanFilter.Builder().setDeviceAddress(filterAddress).build();
         List<ScanFilter> filterList = new ArrayList<ScanFilter>();
-        filterList.add(filter);
+        //filterList.add(filter);
 
-        ScanSettings setting = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
+        ScanSettings setting = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_BALANCED).build();
 
         if (bluetoothAvailable()) {  //start scan only if bt available
             //------------- from https://developer.android.com/guide/topics/connectivity/bluetooth/find-ble-devices start
@@ -156,14 +157,17 @@ public class BluetoothTest extends AppCompatActivity {
                     public void run() {
                         scanning = false;
                         bluetoothLeScanner.stopScan(leScanCallback);
+                        Log.i("BTLE Scanner", "Stopped");
                     }
                 }, SCAN_PERIOD);
 
                 scanning = true;
                 bluetoothLeScanner.startScan(filterList, setting, leScanCallback);
+                Log.i("BTLE Scanner", "Started");
             } else {
                 scanning = false;
                 bluetoothLeScanner.stopScan(leScanCallback);
+                Log.i("BTLE Scanner", "Stopped");
             }
         }
         //------------- from https://developer.android.com/guide/topics/connectivity/bluetooth/find-ble-devices end
