@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
+import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.bluetooth.le.BluetoothLeScanner;
 import android.bluetooth.le.ScanCallback;
@@ -14,6 +15,7 @@ import android.bluetooth.le.ScanFilter;
 import android.bluetooth.le.ScanResult;
 import android.bluetooth.le.ScanSettings;
 import android.content.Intent;
+import android.net.wifi.aware.Characteristics;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -51,7 +53,7 @@ public class BluetoothTest extends AppCompatActivity {
 
 
     private Handler handler = new Handler();
-    String charUuidString = "00002a2f-0000-1000-8000-00805f9b34fb";
+    String charUuidString = "00002a9d-0000-1000-8000-00805f9b34fb";
     private final BluetoothGattCallback gattCallback = new BluetoothGattCallback() {
         @Override
         public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
@@ -77,13 +79,38 @@ public class BluetoothTest extends AppCompatActivity {
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             super.onServicesDiscovered(gatt, status);
             Log.i("BluetoothGattCallback", gatt.getServices().size() + " Services Discovered");
+
+            List<BluetoothGattService> servicesList = gatt.getServices();
+
+            Log.i("Services", servicesList.size() + "");
+
+            List<BluetoothGattCharacteristic> list = servicesList.get(2).getCharacteristics();
+            for (BluetoothGattCharacteristic c : list) {
+                Log.i("Services Characteristic", c.getUuid().toString());
+            }
+
+            for (BluetoothGattService temp : servicesList) {
+                Log.i("Services", temp.getUuid().toString());
+
+            }
+
+
+
+            readBatteryLevel();
         }
 
         @Override
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getValue().toString());
+
+                //Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getValue().toString());
+//characteristic.getValue().
+                for (int i = 0; i < 16; i++) {
+                    Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getFloatValue(50, i));
+                }
+
+
             } else {
                 Log.i("BluetoothGattCallback", "Characteristic Read failed!: ");
             }
@@ -139,17 +166,18 @@ public class BluetoothTest extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void startBleScan() {
         String filterAddress = "C8:47:8C:F9:3F:BE";
-        String filterName = "MI SCALE2";
+        String filterName = "A&D_UC-352BLE_5F01D7"; //A&D_UC-352BLE_5F01D7
         //checks if bluetooth is available and activated
         ScanFilter filter = new ScanFilter.Builder().setDeviceName(filterName).build();
         List<ScanFilter> filterList = new ArrayList<ScanFilter>();
         filterList.add(filter);
 
         ScanSettings setting = new ScanSettings.Builder().setScanMode(ScanSettings.SCAN_MODE_LOW_LATENCY).build();
-
+        Log.i("startBleScan", "Start");
         if (bluetoothAvailable()) {  //start scan only if bt available
             //------------- from https://developer.android.com/guide/topics/connectivity/bluetooth/find-ble-devices start
             if (!scanning) {
+                Log.i("startBleScan", "!scanning");
                 // Stops scanning after a predefined scan period.
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -173,7 +201,6 @@ public class BluetoothTest extends AppCompatActivity {
         BluetoothGatt gatt = gattSave;
         Log.i("Gatt service discovery", "Start");
         gatt.discoverServices();
-        readBatteryLevel();
     }
 
     public void readBatteryLevel() {
@@ -182,10 +209,12 @@ public class BluetoothTest extends AppCompatActivity {
         BluetoothGatt gatt = gattSave;
         BluetoothGattCharacteristic batteryLevelChar = gatt.getService(serviceUuid).getCharacteristic(charUuid);
         Log.i("Characteristic", "Start Reading Characteristic");
-        if (batteryLevelChar.getPermissions() == BluetoothGattCharacteristic.PERMISSION_READ) {
+        //if (batteryLevelChar.getPermissions() == BluetoothGattCharacteristic.PERMISSION_READ) {
             Log.i("Characteristic", "Readable");
-            gatt.readCharacteristic(batteryLevelChar);
-        }
+
+            Log.i("Characteristic", gatt.readCharacteristic(batteryLevelChar) + "");
+
+        //}
     }
 
 }
