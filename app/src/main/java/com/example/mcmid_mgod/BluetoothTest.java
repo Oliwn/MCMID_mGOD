@@ -105,12 +105,14 @@ public class BluetoothTest extends AppCompatActivity {
         public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
             super.onCharacteristicRead(gatt, characteristic, status);
             if (status == BluetoothGatt.GATT_SUCCESS) {
+                float btvalue = characteristic.getFloatValue(50, 0);
+                Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + btvalue);
 
-                //Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getValue().toString());
+                Intent intent = new Intent(getApplicationContext(), AddActivity.class);
+                intent.putExtra("btvalue", btvalue);
+                setResult(1, intent);
+                finish();
 //characteristic.getValue().
-                for (int i = 0; i < 16; i++) {
-                    Log.i("BluetoothGattCallback", "Characteristic Read successfull: " + characteristic.getFloatValue(50, i));
-                }
 
 
             } else {

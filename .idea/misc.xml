@@ -3,16 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/actionbar_indeterminate_progress.xml" value="0.1405775075987842" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_add.xml" value="0.31197916666666664" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_blood_pressure_recorder.xml" value="0.125" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_bluetooth_test.xml" value="0.3171875" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_device_scan.xml" value="0.315625" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_documentation.xml" value="0.31197916666666664" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_main.xml" value="0.15780141843971632" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_patient_list.xml" value="0.33" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_patient_view.xml" value="0.32447916666666665" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/activity_weight_recorder.xml" value="0.16084093211752787" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/gatt_services_characteristics.xml" value="0.1405775075987842" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/layout/listitem_device.xml" value="0.1405775075987842" />
+        <entry key="..\:/Users/kogamas/Nextcloud/FH/5.Sem/MCMIDE/MCMID_mGOD/app/src/main/res/menu/main.xml" value="0.2657407407407407" />
         <entry key="..\:/Users/omstr/Desktop/FH/Semester 5/MCMID/MCMID_mGOD/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_add.xml" value="0.5240036231884058" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_blood_pressure_recorder.xml" value="0.15476190476190477" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_documentation.xml" value="0.157548125633232" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_login.xml" value="0.5240036231884058" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_main.xml" value="0.5" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_patient_list.xml" value="0.33" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_patient_view.xml" value="0.5" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_view_document.xml" value="0.33" />
-        <entry key="..\:/Users/omstr/StudioProjects/MCMID_mGOD/app/src/main/res/layout/activity_weight_recorder.xml" value="0.32447916666666665" />
       </map>
     </option>
   </component>
