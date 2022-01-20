@@ -25,7 +25,7 @@ public class ViewDocument extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Intent intent = getIntent();
-        Toast.makeText(this, "intent:" + intent, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "intent:" + intent, Toast.LENGTH_SHORT).show();
 
         TextView patientname = findViewById(R.id.text_patientname);
 

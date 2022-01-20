@@ -32,7 +32,7 @@ public class PatientView extends AppCompatActivity {
 
 
         Intent intent =getIntent();
-        Toast.makeText(this, "intent:"+ intent,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "intent:"+ intent,Toast.LENGTH_SHORT).show();
         /*Button button = findViewById(R.id.button2);
 
 
